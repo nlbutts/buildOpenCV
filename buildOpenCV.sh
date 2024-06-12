@@ -3,8 +3,6 @@
 # Copyright(c) JetsonHacks (2017-2019)
 
 OPENCV_VERSION=4.9.0
-# Jetson Xaiver
-ARCH_BIN=8.6
 INSTALL_DIR=/usr/local
 # Download the opencv_extras repository
 # If you are installing the opencv testdata, ie
@@ -102,9 +100,7 @@ sudo apt-get install -y \
     pkg-config
 
 # We will be supporting OpenGL, we need a little magic to help
-# https://devtalk.nvidia.com/default/topic/1007290/jetson-tx2/building-opencv-with-opengl-support-/post/5141945/#5141945
 cd /usr/local/cuda/include
-#sudo patch -N cuda_gl_interop.h $WHEREAMI'/patches/OpenGLHeader.patch'
 
 # Python 3
 sudo apt-get install -y python3-dev python3-numpy python3-py python3-pytest python3-pip python3-numpy
@@ -141,33 +137,16 @@ if [[ -z $INSTALL_DEPENDS ]]; then
      git checkout -b v${OPENCV_VERSION} ${OPENCV_VERSION}
     fi
 
-    # Patch the Eigen library issue ...
-    #cd $OPENCV_SOURCE_DIR/opencv
-    #sed -i 's/include <Eigen\/Core>/include <eigen3\/Eigen\/Core>/g' modules/core/include/opencv2/core/private.hpp
-
     # Create the build directory and start cmake
     cd $OPENCV_SOURCE_DIR/opencv
     mkdir build
     cd build
 
-    # Here are some options to install source examples and tests
-    #     -D INSTALL_TESTS=ON \
-    #     -D OPENCV_TEST_DATA_PATH=../opencv_extra/testdata \
-    #     -D INSTALL_C_EXAMPLES=ON \
-    #     -D INSTALL_PYTHON_EXAMPLES=ON \
-
-    # If you are compiling the opencv_contrib modules:
-    # curl -L https://github.com/opencv/opencv_contrib/archive/3.4.1.zip -o opencv_contrib-3.4.1.zip
-
-    # There are also switches which tell CMAKE to build the samples and tests
-    # Check OpenCV documentation for details
-    #       -D WITH_QT=ON \
-
     echo $PWD
     time cmake -D CMAKE_BUILD_TYPE=RELEASE \
           -D CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \
           -D WITH_CUDA=${CUDA_ENABLED} \
-          -D CUDA_ARCH_BIN=${ARCH_BIN} \
+          -D CUDA_ARCH_BIN="" \
           -D CUDA_ARCH_PTX="" \
           -D ENABLE_FAST_MATH=ON \
           -D CUDA_FAST_MATH=ON \
