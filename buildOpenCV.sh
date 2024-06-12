@@ -4,6 +4,8 @@
 
 OPENCV_VERSION=4.9.0
 INSTALL_DIR=/usr/local
+# GPU ARCH
+ARCH_BIN=8.7
 # Download the opencv_extras repository
 # If you are installing the opencv testdata, ie
 #  OPENCV_TEST_DATA_PATH=../opencv_extra/testdata
@@ -147,7 +149,7 @@ if [[ -z $INSTALL_DEPENDS ]]; then
           -D CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} \
           -D WITH_CUDA=${CUDA_ENABLED} \
           -D CUDA_ARCH_BIN="" \
-          -D CUDA_ARCH_PTX="" \
+          -D CUDA_ARCH_PTX=${ARCH_BIN} \
           -D ENABLE_FAST_MATH=ON \
           -D CUDA_FAST_MATH=ON \
           -D WITH_CUBLAS=ON \
