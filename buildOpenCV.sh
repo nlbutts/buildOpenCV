@@ -127,6 +127,10 @@ if [[ -z $INSTALL_DEPENDS ]]; then
     cd $OPENCV_SOURCE_DIR
     git clone --branch "$OPENCV_VERSION" --depth 1 https://github.com/opencv/opencv.git
     git clone --branch "$OPENCV_VERSION" --depth 1 https://github.com/opencv/opencv_contrib.git
+    cd opencv
+    git checkout $OPENCV_VERSION
+    cd ../opencv_contrib
+    git checkout $OPENCV_VERSION
 
     if [ $DOWNLOAD_OPENCV_EXTRAS == "YES" ] ; then
      echo "Installing opencv_extras"
@@ -213,7 +217,7 @@ if [[ -z $INSTALL_DEPENDS ]]; then
     fi
 
     echo "Installing ... "
-    sudo make install
+    sudo make install/strip
     sudo ldconfig
     if [ $? -eq 0 ] ; then
        echo "OpenCV installed in: $CMAKE_INSTALL_PREFIX"
